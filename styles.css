@@ -953,20 +953,6 @@ h3 {
   border-color: var(--navy);
 }
 
-.hand--stops {
-  position: absolute;
-  left: 37%;
-  bottom: -12px;
-  z-index: 4;
-  transform: rotate(-3deg);
-  text-align: left;
-}
-
-.hand--stops .doodle {
-  width: 62px;
-  color: var(--ink);
-}
-
 .legend {
   list-style: none;
   padding: 0;
@@ -2510,10 +2496,6 @@ h3 {
 
   .stops__phone--drop {
     top: 84px;
-  }
-
-  .hand--stops {
-    display: none;
   }
 
   .tag {
