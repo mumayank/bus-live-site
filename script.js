@@ -114,6 +114,9 @@
     function paint() {
       paintFrame = 0;
       bubble.style.transform = 'translate3d(' + posX + 'px, ' + posY + 'px, 0)';
+      if (bubbleHint) {
+        bubbleHint.style.transform = 'translate3d(' + posX + 'px, ' + posY + 'px, 0) rotate(-6deg)';
+      }
     }
 
     function moveTo(x, y) {
@@ -161,7 +164,7 @@
         window.cancelAnimationFrame(paintFrame);
         paintFrame = 0;
       }
-      bubble.style.transform = 'translate3d(0, 0, 0)';
+      paint();
       bubble.hidden = false;
       restoreButton.hidden = true;
       if (bubbleHint) bubbleHint.hidden = false;
