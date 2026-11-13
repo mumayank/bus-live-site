@@ -16,6 +16,8 @@ Push to `main`. GitHub Pages serves the repository root. No build step, no depen
 
 ## Notes
 
+- The Install now links point at the latest release in `mumayank/bus-live-releases`.
+- The download button is a plain link, so there is no script to maintain when a version ships.
 - The trip link in the settings screenshot is replaced with `<your link here>`.
 - No analytics, forms, cookies, or third-party scripts.
 - Fonts, icons, illustrations, and screenshots are served locally.

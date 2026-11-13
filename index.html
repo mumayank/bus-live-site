@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Bus Live - know exactly where the bus is</title>
-  <meta name="description" content="A tiny live tracker for the top bus services. Drop ETA, every stop, and a floating bus bubble. Coming soon to Android.">
+  <meta name="description" content="A tiny live tracker for the top bus services. Drop ETA, every stop, and a floating bus bubble. Install it on Android 8 and later.">
   <meta name="theme-color" content="#F3EEE2">
   <meta property="og:title" content="Bus Live - know exactly where the bus is">
-  <meta property="og:description" content="Live ETA, every stop, and a floating bus that follows you around. Coming soon to Android.">
+  <meta property="og:description" content="Live ETA, every stop, and a floating bus that follows you around. Install it on Android 8 and later.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://mumayank.github.io/bus-live-site/">
   <meta property="og:image" content="https://mumayank.github.io/bus-live-site/assets/og.png">
@@ -20,7 +20,7 @@
   <link rel="preload" href="assets/fonts/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/img/screen-main.webp" as="image" type="image/webp">
   <link rel="preload" href="assets/img/screen-allstops.webp?v=3" as="image" type="image/webp">
-  <link rel="stylesheet" href="styles.css?v=12">
+  <link rel="stylesheet" href="styles.css?v=13">
   <script>
     (function () {
       document.documentElement.classList.add('js');
@@ -54,10 +54,10 @@
           <svg class="icon theme__sun" aria-hidden="true"><use href="assets/icons.svg#i-sun"></use></svg>
           <svg class="icon theme__moon" aria-hidden="true"><use href="assets/icons.svg#i-moon"></use></svg>
         </button>
-        <span class="btn btn--soon btn--nav">
-          <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-bell-simple"></use></svg>
-          Coming soon
-        </span>
+        <a class="btn btn--install btn--nav" href="https://github.com/mumayank/bus-live-releases/releases/latest">
+          <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-download-simple"></use></svg>
+          Install now
+        </a>
       </div>
     </div>
   </header>
@@ -70,10 +70,10 @@
           <h1>Know <span class="mark">exactly</span><br>where the <span class="circled">bus</span> is.</h1>
           <p class="hero__sub">A tiny live tracker for the top bus services. ETA, every stop, and a floating bus that follows you around.</p>
           <div class="hero__cta">
-            <span class="btn btn--soon">
-              <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-bell-simple"></use></svg>
-              Coming soon
-            </span>
+            <a class="btn btn--install" href="https://github.com/mumayank/bus-live-releases/releases/latest">
+              <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-download-simple"></use></svg>
+              Install now
+            </a>
             <a class="arrow-link" href="#tracker">See it move <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-arrow-down"></use></svg></a>
           </div>
         </div>
@@ -403,27 +403,33 @@
       </div>
     </section>
 
-    <section class="section section--cta" id="soon">
+    <section class="section section--cta" id="install">
       <div class="wrap">
         <div class="cta">
           <div class="cta__copy reveal">
-            <h2>Coming soon.<br>Unlike your bus.</h2>
-            <p class="lead">Android first. No download button yet. No newsletter popup either. Just a small app that knows where the bus is.</p>
+            <h2>It's here.<br>Unlike your bus.</h2>
+            <p class="lead">Android 8 and later. One direct APK. No Play Store, no account, no newsletter popup.</p>
             <div class="cta__actions">
-              <span class="btn btn--navy">
-                <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-bell-simple"></use></svg>
-                Coming soon
-              </span>
+              <a class="btn btn--navy" href="https://github.com/mumayank/bus-live-releases/releases/latest">
+                <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-download-simple"></use></svg>
+                Install now
+              </a>
               <span class="cta__aside">The bus is still the main character.</span>
             </div>
+            <ol class="install-steps">
+              <li><span>01</span><div><strong>Download the APK</strong> from the releases page.</div></li>
+              <li><span>02</span><div><strong>Allow the install</strong> when Android asks about this source.</div></li>
+              <li><span>03</span><div><strong>Paste your trip link</strong> and the bus shows up.</div></li>
+            </ol>
+            <p class="install-note">Android may scan the APK because it has not seen the app before. If Play Protect blocks the install, allow it for Bus Live in the Play Store settings and tap Update again inside the app.</p>
           </div>
 
           <div class="cta__art reveal">
-            <div class="ticket" aria-label="Bus Live boarding pass, Android, coming soon">
+            <div class="ticket" aria-label="Bus Live boarding pass, Android, available now">
               <div class="ticket__main">
                 <p class="ticket__kicker">Boarding pass</p>
                 <p class="ticket__brand">Bus Live</p>
-                <p class="ticket__route">Android <span aria-hidden="true">/</span> Soon</p>
+                <p class="ticket__route">Android <span aria-hidden="true">/</span> 1.0</p>
                 <div class="ticket__row"><span>Seq</span><strong>001</strong></div>
                 <div class="ticket__row"><span>Boards</span><strong>5:40 AM</strong></div>
                 <p class="ticket__link">https://&lt;your link here&gt;</p>
@@ -432,7 +438,7 @@
                 <div class="barcode" aria-hidden="true">
                   <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
                 </div>
-                <span class="ticket__stamp">Soon</span>
+                <span class="ticket__stamp">Install</span>
                 <span class="ticket__small">Keep this page.<br>Or don't.</span>
               </div>
             </div>
@@ -440,7 +446,7 @@
             <div class="cta__person">
               <img src="assets/ill/freelancer.svg" width="1000" height="880" alt="" loading="lazy">
             </div>
-            <div class="note note--cta">worth the wait.<br>probably.</div>
+            <div class="note note--cta">tap install.<br>then relax.</div>
           </div>
         </div>
       </div>
@@ -471,7 +477,7 @@
         <p>Built for the 5:40 AM club.</p>
       </div>
       <p class="footer__credit">by mumayank</p>
-      <p class="footer__small">Android. Soon.</p>
+      <p class="footer__small">Android 8 and later.</p>
     </div>
   </footer>
 
