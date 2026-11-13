@@ -1298,21 +1298,26 @@ h3 {
 .notif--big {
   position: relative;
   z-index: 1;
-  overflow: hidden;
   border-radius: 30px;
   box-shadow: var(--shadow);
   transform: rotate(-1.2deg);
 }
 
 .notif--big img {
+  display: block;
   width: 100%;
+  border-radius: 30px;
+}
+
+.notif--big figcaption {
+  padding-inline: 10px;
 }
 
 .notif--small {
   position: relative;
   z-index: 2;
   width: 88%;
-  margin: -24px 0 0 auto;
+  margin: 34px 0 0 auto;
   padding: 10px;
   border: 1px solid var(--line);
   border-radius: 22px;
@@ -1328,6 +1333,7 @@ h3 {
 
 .notif figcaption {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px;
   margin-top: 11px;
@@ -2576,11 +2582,13 @@ h3 {
 
   .notif--small {
     width: 94%;
-    margin-top: -18px;
+    margin-top: 22px;
   }
 
   .notif__muted {
-    display: none;
+    flex-basis: 100%;
+    margin-left: 0;
+    text-align: left;
   }
 
   .maps__head h2 br {
