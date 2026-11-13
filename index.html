@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bus Live - know exactly where the bus is</title>
+  <meta name="description" content="A tiny live tracker for IntrCity buses. Drop ETA, every stop, and a floating bus bubble. Coming soon to Android.">
+  <meta name="theme-color" content="#F3EEE2">
+  <meta property="og:title" content="Bus Live - know exactly where the bus is">
+  <meta property="og:description" content="Live ETA, every stop, and a floating bus that follows you around. Coming soon to Android.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mumayank.github.io/bus-live-site/">
+  <meta property="og:image" content="https://mumayank.github.io/bus-live-site/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://mumayank.github.io/bus-live-site/assets/og.png">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/bricolage-grotesque.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/img/screen-main.webp" as="image" type="image/webp">
+  <link rel="stylesheet" href="styles.css?v=9">
+  <script>
+    (function () {
+      document.documentElement.classList.add('js');
+      try {
+        var stored = localStorage.getItem('bl-theme');
+        var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', theme === 'dark' ? '#07131F' : '#F3EEE2');
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to the good part</a>
+
+  <header class="nav">
+    <div class="wrap nav__inner">
+      <a class="brand" href="#top" aria-label="Bus Live home">
+        <span class="brand__mark"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-bus"></use></svg></span>
+        <span class="brand__name">Bus Live</span>
+      </a>
+
+      <nav class="nav__links" aria-label="Sections">
+        <a href="#tracker">The tracker</a>
+        <a href="#bubble">The bubble</a>
+        <a href="#stops">The stops</a>
+      </nav>
+
+      <div class="nav__actions">
+        <button class="theme" id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+          <svg class="icon theme__sun" aria-hidden="true"><use href="assets/icons.svg#i-sun"></use></svg>
+          <svg class="icon theme__moon" aria-hidden="true"><use href="assets/icons.svg#i-moon"></use></svg>
+        </button>
+        <span class="btn btn--soon btn--nav">
+          <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-bell-simple"></use></svg>
+          Coming soon
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="wrap hero__inner">
+        <div class="hero__copy">
+          <p class="eyebrow"><span class="dot" aria-hidden="true"></span> Live bus tracking, without the refreshing</p>
+          <h1>Know <span class="mark">exactly</span><br>where the <span class="circled">bus</span> is.</h1>
+          <p class="hero__sub">A tiny live tracker for IntrCity buses. ETA, every stop, and a floating bus that follows you around.</p>
+          <div class="hero__cta">
+            <span class="btn btn--soon">
+              <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-bell-simple"></use></svg>
+              Coming soon
+            </span>
+            <a class="arrow-link" href="#tracker">See it move <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-arrow-down"></use></svg></a>
+          </div>
+        </div>
+
+        <div class="hero__visual" aria-label="Bus Live app screens">
+          <div class="hero__phone hero__phone--back">
+            <div class="phone">
+              <div class="phone__screen">
+                <img src="assets/img/screen-drop.webp" width="760" height="1105" alt="Bus Live stop list with the drop stop highlighted in lime." fetchpriority="low">
+              </div>
+            </div>
+          </div>
+
+          <div class="hero__phone hero__phone--front">
+            <div class="phone">
+              <div class="phone__screen">
+                <img src="assets/img/screen-main.webp" width="900" height="1936" alt="Bus Live home screen with a live route map, bus number TG13T7777, and drop ETA." fetchpriority="high">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="marquee-wrap">
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__track">
+          <span>NO REFRESH REFLEX <b>*</b> ETA THAT UPDATES <b>*</b> 38 STOPS, ZERO GUESSING <b>*</b> A BUS THAT FLOATS <b>*</b> NO LOGIN <b>*</b> NO ADS <b>*</b> SILENT AFTER THE FIRST ALERT <b>*</b> </span>
+          <span>NO REFRESH REFLEX <b>*</b> ETA THAT UPDATES <b>*</b> 38 STOPS, ZERO GUESSING <b>*</b> A BUS THAT FLOATS <b>*</b> NO LOGIN <b>*</b> NO ADS <b>*</b> SILENT AFTER THE FIRST ALERT <b>*</b> </span>
+        </div>
+      </div>
+    </div>
+
+    <section class="section section--tracker" id="tracker">
+      <div class="wrap">
+        <div class="tracker">
+          <div class="tracker__copy reveal">
+            <span class="ghost-num" aria-hidden="true">01</span>
+            <h2>The whole trip,<br>in one look.</h2>
+            <p class="lead">Drop ETA. Board time. The next few stops. That is the entire morning meeting.</p>
+            <p class="body">No spreadsheets. No mental math. No refreshing the app like it owes you money.</p>
+
+            <dl class="stats">
+              <div><dt>Drop</dt><dd>05:40</dd></div>
+              <div><dt>To go</dt><dd>479 <small>km</small></dd></div>
+              <div><dt>Stops</dt><dd>38</dd></div>
+            </dl>
+
+            <p class="note note--inline">Updates while you sleep. Especially while you sleep.</p>
+          </div>
+
+          <div class="tracker__art reveal">
+            <span class="big-time" aria-hidden="true">05:40</span>
+            <figure class="eta-card">
+              <img src="assets/img/card-eta.webp?v=2" width="1148" height="745" alt="Dark drop ETA card for Kondapur at 05:40, marked on time, with 479 km to drop." loading="lazy">
+              <figcaption class="sr-only">Drop ETA for Kondapur at 05:40, on time, 479 km to drop.</figcaption>
+            </figure>
+            <div class="hand hand--eta">
+              <svg class="doodle" viewBox="0 0 110 70" aria-hidden="true">
+                <path d="M6 58c20-10 38-26 48-45" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+                <path d="M46 9c3 1 6 2 9 5M52 19c1-3 2-6 3-10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+              </svg>
+              <span>the one you check at 5:39</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--stops" id="stops">
+      <div class="wrap">
+        <div class="stops">
+          <div class="stops__art reveal">
+            <div class="stops__phone stops__phone--board">
+              <div class="phone">
+                <div class="phone__screen">
+                  <img src="assets/img/screen-board.webp" width="760" height="1105" alt="Stop list with Hebbal marked You board." loading="lazy">
+                </div>
+              </div>
+              <span class="tag tag--board">You board</span>
+            </div>
+            <div class="stops__phone stops__phone--drop">
+              <div class="phone">
+                <div class="phone__screen">
+                  <img src="assets/img/screen-drop.webp" width="760" height="1105" alt="Stop list with Kondapur marked You drop." loading="lazy">
+                </div>
+              </div>
+              <span class="tag tag--drop">You drop</span>
+            </div>
+            <div class="hand hand--stops">
+              <span>your stop. circled.</span>
+              <svg class="doodle" viewBox="0 0 80 70" aria-hidden="true">
+                <path d="M8 8c24-2 45 8 55 24 5 9 6 17 3 25" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+                <path d="M55 46c5 3 9 6 11 11M68 48c-2 5-3 9-2 9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="stops__copy reveal">
+            <span class="ghost-num" aria-hidden="true">02</span>
+            <h2>Every stop has a number. Yours is highlighted.</h2>
+            <p class="lead">Tap where you board. Tap where you get off. The list handles the counting.</p>
+            <p class="body">38 stops is a lot. That is why yours gets a lime badge and a tiny bit of main character energy.</p>
+
+            <ul class="legend">
+              <li><span class="legend__dot legend__dot--board" aria-hidden="true"></span><strong>You board</strong><span>Hebbal, 19:55</span></li>
+              <li><span class="legend__dot legend__dot--drop" aria-hidden="true"></span><strong>You drop</strong><span>Kondapur, 05:40</span></li>
+            </ul>
+
+            <button class="arrow-link arrow-link--button" type="button" id="open-stops">
+              See the stop list <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-arrow-right"></use></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--bubble" id="bubble">
+      <div class="wrap">
+        <div class="bubble-panel reveal">
+          <div class="bubble-panel__copy">
+            <span class="pill pill--lime">the floating bus</span>
+            <h2>A bus that floats.<br>Not a metaphor.</h2>
+            <p class="lead lead--light">A tiny live bus sits on top of your maps, your chat, your scrolling. Drag it. Park it. Hide it.</p>
+
+            <ul class="ticks ticks--light">
+              <li><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-arrows-out-cardinal"></use></svg> Drag it anywhere</li>
+              <li><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-arrow-up-right"></use></svg> Tap it to open the trip</li>
+              <li><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-x"></use></svg> Drop it on the X to hide</li>
+            </ul>
+
+            <p class="bubble-panel__foot">It won't judge your screen time. It's a bus.</p>
+          </div>
+
+          <div class="bubble-stage" id="bubble-stage">
+            <div class="bubble-stage__phone">
+              <div class="phone phone--tilt">
+                <div class="phone__screen">
+                  <img src="assets/img/screen-bubble.webp" width="820" height="1105" alt="Map with the floating Bus Live bubble over the route between Bengaluru and Hyderabad." loading="lazy">
+                </div>
+              </div>
+            </div>
+            <p class="bubble-stage__caption">somewhere over Bengaluru</p>
+
+            <button class="bus-bubble" id="bus-bubble" type="button" aria-label="The floating bus. Drag it around, or use the hide button.">
+              <span class="bus-bubble__mark"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-bus"></use></svg></span>
+              <span class="bus-bubble__text"><b>Bus Live</b><em>TG13T7777</em></span>
+            </button>
+            <span class="bubble-hint" id="bubble-hint" aria-hidden="true">drag me</span>
+
+            <button class="bubble-hide" id="bubble-hide" type="button" aria-label="Hide the floating bus">
+              <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-x"></use></svg>
+              <span>drop to hide</span>
+            </button>
+
+            <button class="bubble-restore" id="bubble-restore" type="button" hidden>Bring it back</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--notifs">
+      <div class="wrap">
+        <div class="notifs">
+          <div class="notifs__copy reveal">
+            <span class="ghost-num" aria-hidden="true">03</span>
+            <h2>It taps once.<br>Then it shuts up.</h2>
+            <p class="lead">Live updates in the shade. Silence after the first alert. Your phone stays yours.</p>
+            <p class="body">No 30-second pings. No badge anxiety. We are not your group chat.</p>
+
+            <ul class="ticks">
+              <li><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-arrow-up-right"></use></svg> Refresh, bubble, open</li>
+              <li><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-bell-simple"></use></svg> One alert, then quiet</li>
+              <li><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-clock"></use></svg> Updated in the background</li>
+            </ul>
+          </div>
+
+          <div class="notifs__art reveal">
+            <figure class="notif notif--big">
+              <img src="assets/img/card-notification.webp" width="1060" height="865" alt="Expanded Bus Live notification with a live map, drop ETA, and Refresh, Bubble, and Open buttons." loading="lazy">
+              <figcaption><span class="notif__dot" aria-hidden="true"></span> Live card <span class="notif__muted">expanded, useful, slightly smug</span></figcaption>
+            </figure>
+
+            <figure class="notif notif--small">
+              <img src="assets/img/card-notification-small.webp" width="1085" height="148" alt="Collapsed Bus Live notification showing the drop stop and ETA." loading="lazy">
+              <figcaption><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-bell-simple-slash"></use></svg> Quiet mode <span class="notif__muted">silent until the next alert</span></figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--maps">
+      <div class="wrap">
+        <div class="maps__head reveal">
+          <h2>From &ldquo;somewhere in India&rdquo;<br>to &ldquo;that airport&rdquo;.</h2>
+          <p class="lead">Zoom out for the vibe. Zoom in for the gate. The bus keeps moving either way.</p>
+        </div>
+
+        <div class="maps__strip reveal">
+          <figure class="map-card map-card--one">
+            <div class="map-card__img">
+              <img src="assets/img/map-airport.webp?v=2" width="760" height="760" alt="Bus Live map zoomed in near Kempegowda International Airport with the bus bubble." loading="lazy">
+            </div>
+            <figcaption><span>01</span> Airport o'clock <em>the gate is right there</em></figcaption>
+          </figure>
+
+          <figure class="map-card map-card--two">
+            <div class="map-card__img">
+              <img src="assets/img/map-urban.webp?v=2" width="760" height="760" alt="Bus Live map on city roads near Doddasanne with the bus bubble." loading="lazy">
+            </div>
+            <figcaption><span>02</span> City speed <em>optimistic, as always</em></figcaption>
+          </figure>
+
+          <figure class="map-card map-card--three">
+            <div class="map-card__img">
+              <img src="assets/img/map-highway.webp?v=2" width="760" height="760" alt="Bus Live map on the highway near the airport with the bus bubble." loading="lazy">
+            </div>
+            <figcaption><span>03</span> Highway mode <em>NH 7, looking familiar</em></figcaption>
+          </figure>
+        </div>
+
+        <p class="maps__foot reveal">Maps by Google. Bus by IntrCity. Calm by Bus Live.</p>
+      </div>
+    </section>
+
+    <section class="section section--setup">
+      <div class="wrap">
+        <div class="setup">
+          <div class="setup__copy reveal">
+            <span class="ghost-num" aria-hidden="true">04</span>
+            <h2>Set it once.<br>Then forget it.</h2>
+            <p class="lead">Paste the link. Pick a cadence. Go live. No account, no password, no "verify your email" obstacle course.</p>
+
+            <ol class="steps">
+              <li><span>01</span><div><strong>Paste the trip link</strong><p>The one from the IntrCity app, SMS, or ticket.</p></div></li>
+              <li><span>02</span><div><strong>Pick a cadence</strong><p>30 seconds, 1 minute, or 5. Your patience, your call.</p></div></li>
+              <li><span>03</span><div><strong>Go live</strong><p>The app does the rest. You can go back to packing.</p></div></li>
+            </ol>
+
+            <div class="link-chip">
+              <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-ticket"></use></svg>
+              <span>https://&lt;your link here&gt;</span>
+            </div>
+
+            <p class="note note--inline">Setup shorter than the bus queue. Probably.</p>
+          </div>
+
+          <div class="setup__art reveal">
+            <div class="phone phone--setup">
+              <div class="phone__screen">
+                <img src="assets/img/screen-settings.webp" width="900" height="1275" alt="Bus Live settings screen with the trip link replaced by a placeholder, refresh cadence choices, and privacy notes." loading="lazy">
+              </div>
+            </div>
+            <div class="setup__privacy">
+              <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-shield-check"></use></svg>
+              <div><strong>Stays on your phone.</strong><span>Your link, stop, and settings. No analytics. No ads. No location permission.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--bento">
+      <div class="wrap">
+        <div class="bento__head reveal">
+          <h2>Small app.<br>Long list of not-annoying.</h2>
+          <p class="lead">Everything you need. Nothing that asks for your email.</p>
+        </div>
+
+        <div class="bento">
+          <article class="bento__card bento__card--coffee reveal">
+            <div class="bento__art bento__art--coffee">
+              <img src="assets/ill/coffee.svg" width="1000" height="880" alt="" loading="lazy">
+            </div>
+            <div class="bento__copy">
+              <h3>Made for 5:40 AM</h3>
+              <p>The aisle seat is yours.</p>
+            </div>
+          </article>
+
+          <article class="bento__card bento__card--background reveal">
+            <div class="bento__copy">
+              <h3>Runs in the background</h3>
+              <p>Close the app. The bus keeps moving. Boot receiver included.</p>
+            </div>
+            <div class="bento__art bento__art--map">
+              <img src="assets/ill/map.svg" width="1000" height="880" alt="" loading="lazy">
+            </div>
+          </article>
+
+          <article class="bento__card bento__card--bubble reveal">
+            <span class="bento__icon"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-bus"></use></svg></span>
+            <div class="bento__copy">
+              <h3>The bubble</h3>
+              <p>On top of everything. Even your group chat.</p>
+            </div>
+          </article>
+
+          <article class="bento__card bento__card--silent reveal">
+            <span class="bento__icon"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-bell-simple-slash"></use></svg></span>
+            <div class="bento__copy">
+              <h3>Silent after the first alert</h3>
+              <p>One tap on the shoulder. Then quiet.</p>
+            </div>
+          </article>
+
+          <article class="bento__card bento__card--privacy reveal">
+            <span class="bento__icon"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-eye-slash"></use></svg></span>
+            <div class="bento__copy">
+              <h3>No location permission</h3>
+              <p>It tracks the bus, not you.</p>
+            </div>
+          </article>
+
+          <article class="bento__card bento__card--cadence reveal">
+            <div class="bento__copy">
+              <h3>Refresh cadence</h3>
+              <p>Pick your patience level.</p>
+            </div>
+            <div class="cadence" aria-label="Refresh options: 30 seconds, 1 minute, 5 minutes">
+              <span>30s</span><span>1m</span><span>5m</span>
+            </div>
+            <svg class="icon bento__gauge" aria-hidden="true"><use href="assets/icons.svg#i-gauge"></use></svg>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--cta" id="soon">
+      <div class="wrap">
+        <div class="cta">
+          <div class="cta__copy reveal">
+            <h2>Coming soon.<br>Unlike your bus.</h2>
+            <p class="lead">Android first. No download button yet. No newsletter popup either. Just a small app that knows where the bus is.</p>
+            <div class="cta__actions">
+              <span class="btn btn--navy">
+                <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-bell-simple"></use></svg>
+                Coming soon
+              </span>
+              <span class="cta__aside">The bus is still the main character.</span>
+            </div>
+          </div>
+
+          <div class="cta__art reveal">
+            <div class="ticket" aria-label="Bus Live boarding pass, Android, coming soon">
+              <div class="ticket__main">
+                <p class="ticket__kicker">Boarding pass</p>
+                <p class="ticket__brand">Bus Live</p>
+                <p class="ticket__route">Android <span aria-hidden="true">/</span> Soon</p>
+                <div class="ticket__row"><span>Seq</span><strong>001</strong></div>
+                <div class="ticket__row"><span>Boards</span><strong>5:40 AM</strong></div>
+                <p class="ticket__link">https://&lt;your link here&gt;</p>
+              </div>
+              <div class="ticket__stub">
+                <div class="barcode" aria-hidden="true">
+                  <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                </div>
+                <span class="ticket__stamp">Soon</span>
+                <span class="ticket__small">Keep this page.<br>Or don't.</span>
+              </div>
+            </div>
+
+            <div class="cta__person">
+              <img src="assets/ill/freelancer.svg" width="1000" height="880" alt="" loading="lazy">
+            </div>
+            <div class="note note--cta">worth the wait.<br>probably.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <dialog class="stops-dialog" id="stops-dialog" aria-labelledby="stops-dialog-title">
+      <div class="stops-dialog__panel">
+        <div class="stops-dialog__head">
+          <div><h2 id="stops-dialog-title">The stop list</h2><p class="stops-dialog__sub">A peek at the first nine of 38.</p></div>
+          <button class="stops-dialog__close" type="button" data-close aria-label="Close the stop list">
+            <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-x"></use></svg>
+          </button>
+        </div>
+        <div class="stops-dialog__body">
+          <img src="assets/img/screen-allstops.webp" width="760" height="1036" alt="The first stops in the Bus Live list, numbered from Bommanahalli." loading="lazy">
+        </div>
+      </div>
+    </dialog>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <a class="brand brand--footer" href="#top" aria-label="Back to top">
+        <span class="brand__mark"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-bus"></use></svg></span>
+        <span class="brand__name">Bus Live</span>
+      </a>
+      <p>Built for the 5:40 AM club.</p>
+      <p class="footer__small">Android. Soon.</p>
+    </div>
+  </footer>
+
+  <script src="script.js?v=3" defer></script>
+</body>
+</html>
