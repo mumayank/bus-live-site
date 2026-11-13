@@ -1548,11 +1548,16 @@ h3 {
   box-shadow: var(--shadow-soft);
 }
 
-.setup__privacy .icon {
-  width: 22px;
-  height: 22px;
+.setup__privacy > .icon {
+  flex: none;
+  width: 20px;
+  height: 20px;
   margin-top: 1px;
   color: var(--ink);
+}
+
+.setup__privacy-copy {
+  min-width: 0;
 }
 
 .setup__privacy strong {
@@ -1560,9 +1565,30 @@ h3 {
   font-size: 0.86rem;
 }
 
-.setup__privacy span {
-  display: block;
+.setup__privacy-list {
+  display: grid;
+  gap: 4px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.setup__privacy-list li {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.setup__privacy-list .icon {
+  flex: none;
+  width: 15px;
+  height: 15px;
   margin-top: 2px;
+  color: var(--slate);
+}
+
+.setup__privacy-list span {
+  display: block;
   color: var(--slate);
   font-size: 0.76rem;
   line-height: 1.45;

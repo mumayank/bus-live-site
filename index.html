@@ -19,7 +19,7 @@
   <link rel="preload" href="assets/fonts/bricolage-grotesque.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/img/screen-main.webp" as="image" type="image/webp">
-  <link rel="stylesheet" href="styles.css?v=10">
+  <link rel="stylesheet" href="styles.css?v=11">
   <script>
     (function () {
       document.documentElement.classList.add('js');
@@ -322,7 +322,14 @@
             </div>
             <div class="setup__privacy">
               <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-shield-check"></use></svg>
-              <div><strong>Stays on your phone.</strong><span>Your link, stop, and settings. No analytics. No ads. No location permission.</span></div>
+              <div class="setup__privacy-copy">
+                <strong>Stays on your phone.</strong>
+                <ul class="setup__privacy-list">
+                  <li><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-lock-simple"></use></svg><span>Your link, stop, and settings.</span></li>
+                  <li><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-eye-slash"></use></svg><span>No analytics. No ads.</span></li>
+                  <li><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-map-pin"></use></svg><span>No location permission.</span></li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -374,7 +381,7 @@
           </article>
 
           <article class="bento__card bento__card--privacy reveal">
-            <span class="bento__icon"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-eye-slash"></use></svg></span>
+            <span class="bento__icon"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#i-map-pin"></use></svg></span>
             <div class="bento__copy">
               <h3>No location permission</h3>
               <p>It tracks the bus, not you.</p>
