@@ -2019,9 +2019,19 @@ h3 {
 }
 
 .footer__inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-areas: "start credit soon";
+  align-items: center;
+  gap: 18px 28px;
+}
+
+.footer__start {
+  grid-area: start;
   display: flex;
   align-items: center;
   gap: 18px 28px;
+  min-width: 0;
 }
 
 .brand--footer .brand__mark {
@@ -2044,8 +2054,18 @@ h3 {
   font-size: 0.82rem;
 }
 
+.footer .footer__credit {
+  grid-area: credit;
+  justify-self: center;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
 .footer__small {
-  margin-left: auto;
+  grid-area: soon;
+  justify-self: end;
   font-family: var(--font-mono);
   font-size: 0.6rem !important;
   letter-spacing: 0.1em;
@@ -2689,13 +2709,24 @@ h3 {
   }
 
   .footer__inner {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "start start"
+      "credit soon";
+    gap: 10px 18px;
+  }
+
+  .footer__start {
     flex-wrap: wrap;
     gap: 10px 18px;
   }
 
+  .footer .footer__credit {
+    justify-self: start;
+  }
+
   .footer__small {
-    margin-left: 0;
-    width: 100%;
+    justify-self: end;
   }
 }
 
