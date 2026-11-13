@@ -82,6 +82,7 @@
   var hideButton = document.getElementById('bubble-hide');
   var restoreButton = document.getElementById('bubble-restore');
   var bubbleHint = document.getElementById('bubble-hint');
+  var bubbleMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   if (stage && bubble && hideButton && restoreButton) {
     var posX = 0;
@@ -92,11 +93,13 @@
     var startPosY = 0;
     var dragging = false;
     var hidden = false;
+    var paintFrame = 0;
+    var limits = null;
 
-    function bounds() {
+    function measureLimits() {
       var baseLeft = bubble.offsetLeft;
       var baseTop = bubble.offsetTop;
-      return {
+      limits = {
         minX: -baseLeft,
         maxX: stage.clientWidth - bubble.offsetWidth - baseLeft,
         minY: -baseTop,
@@ -108,11 +111,24 @@
       return Math.min(Math.max(value, min), max);
     }
 
-    function applyPosition(x, y) {
-      var limit = bounds();
-      posX = clamp(x, limit.minX, limit.maxX);
-      posY = clamp(y, limit.minY, limit.maxY);
+    function paint() {
+      paintFrame = 0;
       bubble.style.transform = 'translate3d(' + posX + 'px, ' + posY + 'px, 0)';
+    }
+
+    function moveTo(x, y) {
+      if (!limits) measureLimits();
+      posX = clamp(x, limits.minX, limits.maxX);
+      posY = clamp(y, limits.minY, limits.maxY);
+      if (!paintFrame) paintFrame = window.requestAnimationFrame(paint);
+    }
+
+    function flushPaint() {
+      if (paintFrame) {
+        window.cancelAnimationFrame(paintFrame);
+        paintFrame = 0;
+      }
+      paint();
     }
 
     function overlapsHideTarget() {
@@ -125,6 +141,11 @@
 
     function hideBubble(shouldFocus) {
       hidden = true;
+      bubble.classList.remove('is-returning');
+      if (paintFrame) {
+        window.cancelAnimationFrame(paintFrame);
+        paintFrame = 0;
+      }
       bubble.hidden = true;
       if (bubbleHint) bubbleHint.hidden = true;
       restoreButton.hidden = false;
@@ -133,27 +154,52 @@
 
     function showBubble() {
       hidden = false;
+      posX = 0;
+      posY = 0;
+      limits = null;
+      if (paintFrame) {
+        window.cancelAnimationFrame(paintFrame);
+        paintFrame = 0;
+      }
+      bubble.style.transform = 'translate3d(0, 0, 0)';
       bubble.hidden = false;
       restoreButton.hidden = true;
       if (bubbleHint) bubbleHint.hidden = false;
+      if (!bubbleMotion.matches) {
+        bubble.classList.remove('is-returning');
+        void bubble.offsetWidth;
+        bubble.classList.add('is-returning');
+      }
       bubble.focus();
     }
 
+    bubble.addEventListener('animationend', function (event) {
+      if (event.animationName === 'bubble-home') bubble.classList.remove('is-returning');
+    });
+
     bubble.addEventListener('pointerdown', function (event) {
-      if (hidden) return;
+      if (hidden || (event.button !== undefined && event.button !== 0)) return;
+      event.preventDefault();
+      bubble.classList.remove('is-returning');
+      measureLimits();
       dragging = true;
       startX = event.clientX;
       startY = event.clientY;
       startPosX = posX;
       startPosY = posY;
       stage.classList.add('is-dragging');
-      bubble.setPointerCapture(event.pointerId);
+      if (bubble.setPointerCapture) {
+        try {
+          bubble.setPointerCapture(event.pointerId);
+        } catch (error) {}
+      }
       document.body.style.userSelect = 'none';
     });
 
     bubble.addEventListener('pointermove', function (event) {
       if (!dragging) return;
-      applyPosition(startPosX + event.clientX - startX, startPosY + event.clientY - startY);
+      event.preventDefault();
+      moveTo(startPosX + event.clientX - startX, startPosY + event.clientY - startY);
     });
 
     function endDrag(event) {
@@ -161,6 +207,7 @@
       dragging = false;
       stage.classList.remove('is-dragging');
       document.body.style.userSelect = '';
+      flushPaint();
 
       if (event && bubble.hasPointerCapture && bubble.hasPointerCapture(event.pointerId)) {
         bubble.releasePointerCapture(event.pointerId);
@@ -175,6 +222,15 @@
     bubble.addEventListener('pointercancel', endDrag);
     bubble.addEventListener('lostpointercapture', function () {
       if (dragging) endDrag(null);
+    });
+
+    window.addEventListener('resize', function () {
+      limits = null;
+      if (hidden || dragging) return;
+      measureLimits();
+      posX = clamp(posX, limits.minX, limits.maxX);
+      posY = clamp(posY, limits.minY, limits.maxY);
+      flushPaint();
     });
 
     hideButton.addEventListener('click', function () {
