@@ -1,5 +1,6 @@
 .DS_Store
 source-shots/
 .preview/
+reports/
 node_modules/
 .playwright-mcp/
