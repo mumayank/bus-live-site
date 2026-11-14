@@ -32,10 +32,10 @@ Regenerate it after the hero copy, fonts, or home screenshot change:
 ```bash
 python3 -m http.server 8099 &
 SERVER_PID=$!
+trap 'kill $SERVER_PID' EXIT
 npx playwright screenshot --channel chrome --viewport-size "1200,630" \
   --wait-for-selector 'html[data-ready="true"]' \
   http://127.0.0.1:8099/tools/og-card.html assets/og-card.jpg
-kill $SERVER_PID
 ```
 
 WhatsApp caches previews and preview images by URL. When the card changes, publish it under a new file name and update `og:image` and `twitter:image` in `index.html` instead of overwriting the old file.

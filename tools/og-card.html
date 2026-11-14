@@ -307,7 +307,12 @@
       ]);
       await document.fonts.ready;
       const img = document.querySelector('.phone__screen img');
-      if (!img.complete) await new Promise(function (resolve) { img.onload = resolve; });
+      if (!img.complete || !img.naturalWidth) {
+        await new Promise(function (resolve, reject) {
+          img.onload = resolve;
+          img.onerror = reject;
+        });
+      }
       document.documentElement.dataset.ready = 'true';
     })();
   </script>
