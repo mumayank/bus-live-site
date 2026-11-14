@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <title>Bus Live share card</title>
+  <style>
+    @font-face {
+      font-family: 'Bricolage Grotesque';
+      src: url('../assets/fonts/bricolage-grotesque.woff2') format('woff2');
+      font-weight: 200 800;
+      font-style: normal;
+      font-display: block;
+    }
+    @font-face {
+      font-family: 'Instrument Sans';
+      src: url('../assets/fonts/instrument-sans.woff2') format('woff2');
+      font-weight: 400 700;
+      font-style: normal;
+      font-display: block;
+    }
+    @font-face {
+      font-family: 'DM Mono';
+      src: url('../assets/fonts/dm-mono-500.woff2') format('woff2');
+      font-weight: 500;
+      font-style: normal;
+      font-display: block;
+    }
+
+    :root {
+      --paper: #F3EEE2;
+      --ink: #0C1A2A;
+      --slate: #526170;
+      --lime: #C7F36B;
+      --lime-dark: #A8D94E;
+      --navy: #0B1A29;
+      --on-navy: #F3EEE2;
+      --font-display: 'Bricolage Grotesque', sans-serif;
+      --font-body: 'Instrument Sans', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      width: 1200px;
+      height: 630px;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
+    }
+
+    .card {
+      position: relative;
+      width: 1200px;
+      height: 630px;
+      overflow: hidden;
+      background: var(--paper);
+    }
+
+    .blob {
+      position: absolute;
+      top: -360px;
+      right: -210px;
+      width: 820px;
+      height: 820px;
+      border-radius: 50%;
+      background: var(--lime);
+    }
+
+    .blob--soft {
+      top: auto;
+      right: -290px;
+      bottom: -520px;
+      width: 760px;
+      height: 760px;
+      background: rgba(199, 243, 107, 0.22);
+    }
+
+    .copy {
+      position: absolute;
+      top: 54px;
+      left: 72px;
+      width: 690px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 23px;
+      letter-spacing: -0.035em;
+    }
+
+    .brand__mark {
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: var(--lime);
+      color: var(--navy);
+      box-shadow: inset 0 -2px 0 rgba(12, 26, 42, 0.12);
+    }
+
+    .brand__mark svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 30px 0 0;
+      color: var(--slate);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .dot {
+      display: inline-block;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--lime-dark);
+      box-shadow: 0 0 0 4px rgba(168, 217, 78, 0.18);
+    }
+
+    h1 {
+      margin: 16px 0 0;
+      font-family: var(--font-display);
+      font-size: 96px;
+      font-weight: 700;
+      line-height: 0.96;
+      letter-spacing: -0.055em;
+    }
+
+    .mark {
+      position: relative;
+      display: inline-block;
+      isolation: isolate;
+      padding-inline: 0.04em;
+    }
+
+    .mark::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      inset: 7% -4% -1%;
+      background: var(--lime);
+      border-radius: 6px 12px 8px 14px;
+      transform: rotate(-1.4deg);
+    }
+
+    .circled {
+      position: relative;
+      display: inline-block;
+      margin-inline: 0.04em;
+    }
+
+    .circled::after {
+      content: "";
+      position: absolute;
+      inset: 2% -0.16em -7% -0.14em;
+      border: 3px solid var(--lime-dark);
+      border-radius: 52% 46% 54% 48%;
+      transform: rotate(-2.5deg);
+    }
+
+    .sub {
+      width: 560px;
+      margin: 24px 0 0;
+      color: var(--slate);
+      font-size: 24px;
+      line-height: 1.42;
+      letter-spacing: -0.01em;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      height: 60px;
+      margin-top: 28px;
+      padding: 0 26px;
+      border-radius: 999px;
+      background: var(--navy);
+      color: var(--on-navy);
+      font-size: 18px;
+      font-weight: 650;
+      letter-spacing: 0.005em;
+      box-shadow: inset 0 -2px 0 rgba(255, 255, 255, 0.08), 0 18px 34px -22px rgba(11, 26, 41, 0.65);
+    }
+
+    .cta svg {
+      width: 20px;
+      height: 20px;
+      color: var(--lime);
+    }
+
+    .phone-stage {
+      position: absolute;
+      top: 12px;
+      right: 82px;
+      width: 336px;
+      height: 606px;
+    }
+
+    .phone {
+      position: relative;
+      padding: 9px;
+      border-radius: 44px;
+      background: linear-gradient(155deg, #22384C 0%, #0A1724 45%, #06101A 100%);
+      box-shadow: 0 38px 80px -34px rgba(7, 20, 32, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+      transform: rotate(-4deg);
+      transform-origin: 50% 50%;
+    }
+
+    .phone__screen {
+      overflow: hidden;
+      border-radius: 35px;
+      line-height: 0;
+    }
+
+    .phone__screen img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .phone-stage .phone {
+      position: absolute;
+      top: 8px;
+      left: 24px;
+      width: 288px;
+    }
+
+    .spark {
+      position: absolute;
+      right: 28px;
+      top: 2px;
+      width: 46px;
+      height: 46px;
+      color: var(--navy);
+      opacity: 0.85;
+      transform: rotate(8deg);
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="blob" aria-hidden="true"></div>
+    <div class="blob blob--soft" aria-hidden="true"></div>
+
+    <div class="copy">
+      <div class="brand">
+        <span class="brand__mark">
+          <svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><use href="../assets/icons.svg#i-bus"></use></svg>
+        </span>
+        <span>Bus Live</span>
+      </div>
+
+      <p class="eyebrow"><span class="dot"></span> Live bus tracking, without the refreshing</p>
+
+      <h1>Know <span class="mark">exactly</span><br>where the <span class="circled">bus</span> is.</h1>
+
+      <p class="sub">Live ETA, every stop, and a floating bus<br>that follows you around.</p>
+
+      <div class="cta">
+        <svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><use href="../assets/icons.svg#i-download-simple"></use></svg>
+        Install on Android 8+
+      </div>
+    </div>
+
+    <div class="phone-stage">
+      <svg class="spark" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <path d="M24 3v11M24 34v11M3 24h11M34 24h11M9 9l7 7M32 32l7 7M39 9l-7 7M16 32l-7 7" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/>
+      </svg>
+      <div class="phone">
+        <div class="phone__screen">
+          <img src="../assets/img/screen-main.webp" width="900" height="1936" alt="">
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    (async function () {
+      await Promise.all([
+        document.fonts.load('700 96px "Bricolage Grotesque"'),
+        document.fonts.load('500 14px "DM Mono"'),
+        document.fonts.load('400 24px "Instrument Sans"'),
+        document.fonts.load('650 18px "Instrument Sans"')
+      ]);
+      await document.fonts.ready;
+      const img = document.querySelector('.phone__screen img');
+      if (!img.complete) await new Promise(function (resolve) { img.onload = resolve; });
+      document.documentElement.dataset.ready = 'true';
+    })();
+  </script>
+</body>
+</html>
